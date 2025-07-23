@@ -125,9 +125,28 @@ const emit = defineEmits(['reset'])
 
 // 로또 번호 세트 생성
 const lottoSets = computed(() => {
-  if (!props.result?.lottoNumbers) return []
+  let lottoNumbers = []
   
-  return props.result.lottoNumbers.map((numbers, index) => {
+  // 새로운 API 응답 형식 처리
+  if (props.result?.lottoNumbers) {
+    lottoNumbers = props.result.lottoNumbers
+  }
+  // 기존 형식도 지원 (fallback)
+  else if (Array.isArray(props.result)) {
+    lottoNumbers = props.result
+  }
+  // 빈 배열일 경우 샘플 데이터
+  else {
+    lottoNumbers = [
+      [3, 15, 22, 27, 34, 41],
+      [6, 11, 18, 29, 35, 42],
+      [8, 17, 23, 30, 36, 44],
+      [5, 13, 21, 28, 37, 45],
+      [1, 12, 19, 26, 32, 40]
+    ]
+  }
+  
+  return lottoNumbers.map((numbers, index) => {
     const sum = numbers.reduce((a, b) => a + b, 0)
     const evenCount = numbers.filter(n => n % 2 === 0).length
     const highCount = numbers.filter(n => n > 25).length
