@@ -191,7 +191,19 @@ const copyNumbers = () => {
 
 <style scoped>
 .result-card {
-  @apply glass rounded-3xl p-8 shadow-2xl border border-white/20 transform hover:scale-102 transition-all duration-300;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transform: scale(1);
+  transition: all 0.3s ease;
+}
+
+.result-card:hover {
+  transform: scale(1.02);
 }
 
 .glass {
@@ -200,69 +212,170 @@ const copyNumbers = () => {
 }
 
 .number-badge {
-  @apply w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg;
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(to right, #8b5cf6, #ec4899);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.125rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .lucky-tag {
-  @apply bg-gradient-to-r from-yellow-500/20 to-orange-500/20 px-4 py-2 rounded-full border border-yellow-400/30 text-yellow-200 text-sm font-semibold;
+  background: linear-gradient(to right, rgba(234, 179, 8, 0.2), rgba(249, 115, 22, 0.2));
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  color: #fde047;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 .numbers-container {
-  @apply bg-black/20 rounded-2xl p-6 mb-6;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .numbers-grid {
-  @apply flex flex-wrap justify-center gap-4;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .lotto-ball {
-  @apply w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg border-2 border-white/20 transform hover:scale-110 transition-all duration-300 cursor-pointer;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.125rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transform: scale(1);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.ball-yellow { @apply bg-gradient-to-br from-yellow-400 to-yellow-600; }
-.ball-blue { @apply bg-gradient-to-br from-blue-400 to-blue-600; }
-.ball-red { @apply bg-gradient-to-br from-red-400 to-red-600; }
-.ball-gray { @apply bg-gradient-to-br from-gray-400 to-gray-600; }
-.ball-green { @apply bg-gradient-to-br from-green-400 to-green-600; }
+.lotto-ball:hover {
+  transform: scale(1.1);
+}
+
+.ball-yellow { 
+  background: linear-gradient(to bottom right, #facc15, #ca8a04);
+}
+
+.ball-blue { 
+  background: linear-gradient(to bottom right, #60a5fa, #2563eb);
+}
+
+.ball-red { 
+  background: linear-gradient(to bottom right, #f87171, #dc2626);
+}
+
+.ball-gray { 
+  background: linear-gradient(to bottom right, #9ca3af, #4b5563);
+}
+
+.ball-green { 
+  background: linear-gradient(to bottom right, #4ade80, #16a34a);
+}
 
 .card-footer {
-  @apply bg-white/5 rounded-xl p-4;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+  padding: 1rem;
 }
 
 .info-grid {
-  @apply grid grid-cols-3 gap-4;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
 }
 
 .info-item {
-  @apply text-center;
+  text-align: center;
 }
 
 .info-label {
-  @apply block text-slate-400 text-xs uppercase tracking-wide mb-1;
+  display: block;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
 }
 
 .info-value {
-  @apply text-white font-semibold;
+  color: white;
+  font-weight: 600;
 }
 
 .action-btn {
-  @apply flex items-center justify-center px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 active:scale-95;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  transform: scale(1);
+  cursor: pointer;
+  border: none;
+}
+
+.action-btn:hover {
+  transform: scale(1.05);
+}
+
+.action-btn:active {
+  transform: scale(0.95);
 }
 
 .primary-btn {
-  @apply bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg hover:shadow-xl;
+  background: linear-gradient(to right, #8b5cf6, #ec4899);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.primary-btn:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 .secondary-btn {
-  @apply bg-white/10 text-white border border-white/20 hover:bg-white/20;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .tertiary-btn {
-  @apply bg-slate-600/50 text-slate-300 hover:bg-slate-600/70;
+  background: rgba(71, 85, 105, 0.5);
+  color: #cbd5e1;
+}
+
+.tertiary-btn:hover {
+  background: rgba(71, 85, 105, 0.7);
 }
 
 .lucky-message {
-  @apply glass rounded-2xl p-6 text-center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
 }
 
 /* 애니메이션 */

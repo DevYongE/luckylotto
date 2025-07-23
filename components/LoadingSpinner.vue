@@ -77,15 +77,21 @@ onMounted(() => {
 
 <style scoped>
 .loading-container {
-  @apply py-12 px-8;
+  padding: 3rem 2rem;
 }
 
 .loading-circle {
-  @apply relative w-32 h-32 mx-auto;
+  position: relative;
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto;
 }
 
 .loading-dot {
-  @apply absolute w-4 h-4 rounded-full;
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
   background: linear-gradient(45deg, #8b5cf6, #ec4899);
   animation: loading-rotate 2s linear infinite;
 }
@@ -119,11 +125,21 @@ onMounted(() => {
 }
 
 .loading-center {
-  @apply absolute inset-0 flex items-center justify-center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .loading-text-container {
-  @apply h-8 flex items-center justify-center;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .loading-text {
@@ -131,15 +147,23 @@ onMounted(() => {
 }
 
 .progress-container {
-  @apply max-w-sm mx-auto;
+  max-width: 24rem;
+  margin: 0 auto;
 }
 
 .progress-bar {
-  @apply w-full h-2 bg-white/10 rounded-full overflow-hidden;
+  width: 100%;
+  height: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  overflow: hidden;
 }
 
 .progress-fill {
-  @apply h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-700 ease-out;
+  height: 100%;
+  background: linear-gradient(to right, #8b5cf6, #ec4899);
+  border-radius: 9999px;
+  transition: all 0.7s ease-out;
 }
 
 /* 애니메이션 */

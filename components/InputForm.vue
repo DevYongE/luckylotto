@@ -51,7 +51,7 @@
             <span class="step-number">3</span>
             성별
           </label>
-          <div class="grid grid-cols-2 gap-3">
+          <div class="gender-container">
             <button
               type="button"
               @click="formData.gender = '남성'"
@@ -175,59 +175,164 @@ const handleSubmit = () => {
 }
 
 .form-group {
-  @apply space-y-3;
+  margin-bottom: 1.5rem;
+}
+
+.form-group > * + * {
+  margin-top: 0.75rem;
+}
+
+.gender-container {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
 }
 
 .form-label {
-  @apply flex items-center text-lg font-semibold text-white;
+  display: flex;
+  align-items: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
 }
 
 .step-number {
-  @apply inline-flex items-center justify-center w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white text-sm font-bold mr-3 flex-shrink-0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: linear-gradient(to right, #8b5cf6, #ec4899);
+  border-radius: 9999px;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
 }
 
 .form-input {
-  @apply w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white text-lg placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-400/50 transition-all duration-300 backdrop-blur-sm;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  color: white;
+  font-size: 1.125rem;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.form-input::placeholder {
+  color: rgba(148, 163, 184, 1);
 }
 
 .form-input:focus {
+  outline: none;
   background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5);
 }
 
 .form-select {
-  @apply w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white text-lg focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-400/50 transition-all duration-300 backdrop-blur-sm appearance-none;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  color: white;
+  font-size: 1.125rem;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+  appearance: none;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
   background-position: right 1rem center;
   background-repeat: no-repeat;
   background-size: 1.5em 1.5em;
 }
 
+.form-select:focus {
+  outline: none;
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5);
+}
+
 .form-select option {
-  @apply bg-slate-800 text-white;
+  background-color: #1e293b;
+  color: white;
 }
 
 .gender-btn {
-  @apply flex flex-col items-center justify-center px-6 py-6 rounded-2xl border text-lg font-semibold transition-all duration-300 transform;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid;
+  font-size: 1.125rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  transform: scale(1);
+  cursor: pointer;
+  flex: 1;
+  min-height: 4rem;
+}
+
+.gender-btn:hover {
+  transform: scale(1.02);
 }
 
 .gender-btn-active {
-  @apply bg-gradient-to-r from-purple-500 to-pink-500 border-purple-400 text-white shadow-lg scale-105;
+  background: linear-gradient(to right, #8b5cf6, #ec4899);
+  border-color: #a855f7;
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: scale(1.05);
 }
 
 .gender-btn-inactive {
-  @apply bg-white/5 border-white/20 text-slate-300 hover:bg-white/10 hover:border-white/30 hover:scale-102;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #cbd5e1;
+}
+
+.gender-btn-inactive:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .submit-btn {
-  @apply w-full px-8 py-4 rounded-2xl text-lg font-bold transition-all duration-300 transform;
+  width: 100%;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  transform: scale(1);
+  cursor: pointer;
+  border: none;
+}
+
+.submit-btn:active {
+  transform: scale(0.95);
 }
 
 .submit-btn-active {
-  @apply bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 text-white shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95;
+  background: linear-gradient(to right, #8b5cf6, #ec4899, #8b5cf6);
+  color: white;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.submit-btn-active:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 25px 25px -5px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
 }
 
 .submit-btn-disabled {
-  @apply bg-slate-600/50 text-slate-400 cursor-not-allowed;
+  background: rgba(71, 85, 105, 0.5);
+  color: #94a3b8;
+  cursor: not-allowed;
 }
 
 /* 애니메이션 */
