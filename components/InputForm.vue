@@ -2,9 +2,6 @@
   <div class="max-w-2xl mx-auto">
     <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-white/20">
       <div class="text-center mb-8">
-        <div class="inline-block p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-4">
-          <span class="text-2xl">📅</span>
-        </div>
         <h2 class="text-3xl font-bold text-white mb-2" style="color: white !important;">당신의 정보를 입력해주세요</h2>
         <p class="text-purple-200" style="color: #c4b5fd !important;">사주 분석을 위한 기본 정보입니다</p>
       </div>
@@ -25,9 +22,6 @@
               style="color: white !important; background-color: rgba(255,255,255,0.2) !important;"
               :max="new Date().toISOString().split('T')[0]"
             />
-            <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-purple-300">
-              📅
-            </div>
           </div>
         </div>
         
