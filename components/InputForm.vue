@@ -1,112 +1,135 @@
 <template>
-  <div class="max-w-2xl mx-auto">
-    <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-white/20">
+  <div class="w-full max-w-2xl mx-auto">
+    <div class="glass rounded-3xl p-8 shadow-2xl border border-white/20">
+      <!-- 헤더 -->
       <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-white mb-2" style="color: white !important;">당신의 정보를 입력해주세요</h2>
-        <p class="text-purple-200" style="color: #c4b5fd !important;">사주 분석을 위한 기본 정보입니다</p>
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl mb-4">
+          <span class="text-2xl">✨</span>
+        </div>
+        <h2 class="text-3xl font-bold text-white mb-2">
+          정보 입력
+        </h2>
+        <p class="text-slate-300">
+          당신의 특별한 번호를 찾아드릴게요
+        </p>
       </div>
       
-      <form @submit.prevent="handleSubmit" class="space-y-8">
+      <form @submit.prevent="handleSubmit" class="space-y-6">
+        <!-- 이름 -->
+        <div class="form-group">
+          <label class="form-label">
+            <span class="step-number">1</span>
+            이름
+          </label>
+          <input
+            v-model="formData.name"
+            type="text"
+            required
+            placeholder="이름을 입력해주세요"
+            class="form-input"
+          />
+        </div>
+
         <!-- 생년월일 -->
-        <div class="space-y-3">
-          <label class="block text-lg font-semibold text-white" style="color: white !important;">
-            <span class="inline-block w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white text-sm font-bold mr-2" style="color: white !important;">1</span>
+        <div class="form-group">
+          <label class="form-label">
+            <span class="step-number">2</span>
             생년월일
           </label>
-          <div class="relative">
-            <input
-              v-model="formData.birthDate"
-              type="date"
-              required
-              class="w-full px-6 py-4 bg-white/20 border-2 border-purple-300/30 rounded-2xl text-white text-lg placeholder-purple-200 focus:outline-none focus:ring-4 focus:ring-purple-400/50 focus:border-purple-400 transition-all duration-300"
-              style="color: white !important; background-color: rgba(255,255,255,0.2) !important;"
-              :max="new Date().toISOString().split('T')[0]"
-            />
-          </div>
+          <input
+            v-model="formData.birthDate"
+            type="date"
+            required
+            class="form-input"
+            :max="new Date().toISOString().split('T')[0]"
+          />
         </div>
         
         <!-- 성별 -->
-        <div class="space-y-3">
-          <label class="block text-lg font-semibold text-white" style="color: white !important;">
-            <span class="inline-block w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white text-sm font-bold mr-2" style="color: white !important;">2</span>
+        <div class="form-group">
+          <label class="form-label">
+            <span class="step-number">3</span>
             성별
           </label>
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-2 gap-3">
             <button
               type="button"
               @click="formData.gender = '남성'"
               :class="[
-                'px-6 py-4 rounded-2xl border-2 text-lg font-semibold transition-all duration-300',
-                formData.gender === '남성'
-                  ? 'bg-gradient-to-r from-blue-500 to-blue-600 border-blue-400 text-white shadow-lg'
-                  : 'bg-white/10 border-purple-300/30 text-purple-200 hover:bg-white/20 hover:border-purple-400'
+                'gender-btn',
+                formData.gender === '남성' ? 'gender-btn-active' : 'gender-btn-inactive'
               ]"
-              style="color: white !important;"
             >
-              <span class="text-2xl mr-2">👨</span>
+              <span class="text-2xl mb-1">👨</span>
               남성
             </button>
             <button
               type="button"
               @click="formData.gender = '여성'"
               :class="[
-                'px-6 py-4 rounded-2xl border-2 text-lg font-semibold transition-all duration-300',
-                formData.gender === '여성'
-                  ? 'bg-gradient-to-r from-pink-500 to-pink-600 border-pink-400 text-white shadow-lg'
-                  : 'bg-white/10 border-purple-300/30 text-purple-200 hover:bg-white/20 hover:border-purple-400'
+                'gender-btn',
+                formData.gender === '여성' ? 'gender-btn-active' : 'gender-btn-inactive'
               ]"
-              style="color: white !important;"
             >
-              <span class="text-2xl mr-2">👩</span>
+              <span class="text-2xl mb-1">👩</span>
               여성
             </button>
           </div>
         </div>
         
-        <!-- 태어난 시간 -->
-        <div class="space-y-3">
-          <label class="block text-lg font-semibold text-white" style="color: white !important;">
-            <span class="inline-block w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white text-sm font-bold mr-2" style="color: white !important;">3</span>
-            태어난 시간 <span class="text-sm text-purple-300" style="color: #c4b5fd !important;">(선택사항)</span>
+        <!-- 출생시간 -->
+        <div class="form-group">
+          <label class="form-label">
+            <span class="step-number">4</span>
+            출생시간
+            <span class="text-sm text-slate-400 ml-2">(선택사항)</span>
           </label>
-          <div class="relative">
-            <select
-              v-model="formData.birthTime"
-              class="w-full px-6 py-4 bg-white/20 border-2 border-purple-300/30 rounded-2xl text-white text-lg focus:outline-none focus:ring-4 focus:ring-purple-400/50 focus:border-purple-400 transition-all duration-300 appearance-none"
-              style="color: white !important; background-color: rgba(255,255,255,0.2) !important;"
-            >
-              <option value="" style="background-color: #1f2937 !important; color: white !important;">시간을 선택해주세요</option>
-              <option value="자시 (23:00-01:00)" style="background-color: #1f2937 !important; color: white !important;">자시 (23:00-01:00)</option>
-              <option value="축시 (01:00-03:00)" style="background-color: #1f2937 !important; color: white !important;">축시 (01:00-03:00)</option>
-              <option value="인시 (03:00-05:00)" style="background-color: #1f2937 !important; color: white !important;">인시 (03:00-05:00)</option>
-              <option value="묘시 (05:00-07:00)" style="background-color: #1f2937 !important; color: white !important;">묘시 (05:00-07:00)</option>
-              <option value="진시 (07:00-09:00)" style="background-color: #1f2937 !important; color: white !important;">진시 (07:00-09:00)</option>
-              <option value="사시 (09:00-11:00)" style="background-color: #1f2937 !important; color: white !important;">사시 (09:00-11:00)</option>
-              <option value="오시 (11:00-13:00)" style="background-color: #1f2937 !important; color: white !important;">오시 (11:00-13:00)</option>
-              <option value="미시 (13:00-15:00)" style="background-color: #1f2937 !important; color: white !important;">미시 (13:00-15:00)</option>
-              <option value="신시 (15:00-17:00)" style="background-color: #1f2937 !important; color: white !important;">신시 (15:00-17:00)</option>
-              <option value="유시 (17:00-19:00)" style="background-color: #1f2937 !important; color: white !important;">유시 (17:00-19:00)</option>
-              <option value="술시 (19:00-21:00)" style="background-color: #1f2937 !important; color: white !important;">술시 (19:00-21:00)</option>
-              <option value="해시 (21:00-23:00)" style="background-color: #1f2937 !important; color: white !important;">해시 (21:00-23:00)</option>
+          <div class="grid grid-cols-2 gap-3">
+            <select v-model="formData.birthHour" class="form-select">
+              <option value="">시</option>
+              <option v-for="hour in 24" :key="hour" :value="hour - 1">
+                {{ String(hour - 1).padStart(2, '0') }}시
+              </option>
             </select>
-            <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-purple-300 pointer-events-none">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </div>
+            <select v-model="formData.birthMinute" class="form-select">
+              <option value="">분</option>
+              <option v-for="minute in [0, 15, 30, 45]" :key="minute" :value="minute">
+                {{ String(minute).padStart(2, '0') }}분
+              </option>
+            </select>
           </div>
         </div>
         
+        <!-- 특별한 의미가 있는 숫자 -->
+        <div class="form-group">
+          <label class="form-label">
+            <span class="step-number">5</span>
+            특별한 숫자
+            <span class="text-sm text-slate-400 ml-2">(선택사항)</span>
+          </label>
+          <input
+            v-model="formData.luckyNumbers"
+            type="text"
+            placeholder="예: 7, 13, 25 (쉼표로 구분)"
+            class="form-input"
+          />
+          <p class="text-xs text-slate-400 mt-2">
+            좋아하는 숫자나 의미 있는 숫자를 입력해주세요
+          </p>
+        </div>
+        
         <!-- 제출 버튼 -->
-        <div class="pt-6">
+        <div class="pt-4">
           <button
             type="submit"
-            :disabled="!formData.birthDate || !formData.gender"
-            class="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-700 hover:via-pink-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-6 px-8 rounded-2xl text-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400/50 shadow-2xl"
-            style="color: white !important;"
+            :disabled="!isFormValid"
+            class="submit-btn"
+            :class="isFormValid ? 'submit-btn-active' : 'submit-btn-disabled'"
           >
-            <span class="text-3xl mr-3">🔮</span>
-            운세 보기
+            <span class="flex items-center justify-center">
+              <span class="text-xl mr-2">🎯</span>
+              나만의 로또 번호 받기
+            </span>
           </button>
         </div>
       </form>
@@ -117,67 +140,116 @@
 <script setup>
 const emit = defineEmits(['submit'])
 
-const formData = ref({
+const formData = reactive({
+  name: '',
   birthDate: '',
   gender: '',
-  birthTime: ''
+  birthHour: '',
+  birthMinute: '',
+  luckyNumbers: ''
+})
+
+const isFormValid = computed(() => {
+  return formData.name.trim() && formData.birthDate && formData.gender
 })
 
 const handleSubmit = () => {
-  if (!formData.value.birthDate || !formData.value.gender) {
-    alert('생년월일과 성별은 필수 입력사항입니다.')
-    return
+  if (!isFormValid.value) return
+  
+  const submitData = {
+    ...formData,
+    luckyNumbers: formData.luckyNumbers
+      ? formData.luckyNumbers.split(',').map(n => n.trim()).filter(n => n)
+      : []
   }
   
-  emit('submit', {
-    birthDate: formData.value.birthDate,
-    gender: formData.value.gender,
-    birthTime: formData.value.birthTime || '모름'
-  })
+  emit('submit', submitData)
 }
 </script>
 
 <style scoped>
-/* 모든 텍스트 강제 색상 적용 */
-* {
-  color: white !important;
-  font-family: 'Segoe UI', 'Malgun Gothic', system-ui, -apple-system, sans-serif !important;
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* select 옵션 스타일링 */
-select option {
-  background-color: #1f2937 !important;
-  color: white !important;
-  padding: 8px;
+.form-group {
+  @apply space-y-3;
 }
 
-select option:hover {
-  background-color: #374151 !important;
+.form-label {
+  @apply flex items-center text-lg font-semibold text-white;
 }
 
-/* 포커스 시 배경색 변경 */
-select:focus option:checked {
-  background-color: #7c3aed !important;
+.step-number {
+  @apply inline-flex items-center justify-center w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white text-sm font-bold mr-3 flex-shrink-0;
 }
 
-/* 입력 필드 강제 스타일 */
-input[type="date"] {
-  color: white !important;
-  background-color: rgba(255,255,255,0.2) !important;
+.form-input {
+  @apply w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white text-lg placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-400/50 transition-all duration-300 backdrop-blur-sm;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 0.8;
+.form-input:focus {
+  background: rgba(255, 255, 255, 0.15);
 }
 
-/* 버튼 텍스트 강제 적용 */
-button {
-  color: white !important;
+.form-select {
+  @apply w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white text-lg focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-400/50 transition-all duration-300 backdrop-blur-sm appearance-none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
 }
 
-/* 라벨 텍스트 강제 적용 */
-label {
-  color: white !important;
+.form-select option {
+  @apply bg-slate-800 text-white;
 }
+
+.gender-btn {
+  @apply flex flex-col items-center justify-center px-6 py-6 rounded-2xl border text-lg font-semibold transition-all duration-300 transform;
+}
+
+.gender-btn-active {
+  @apply bg-gradient-to-r from-purple-500 to-pink-500 border-purple-400 text-white shadow-lg scale-105;
+}
+
+.gender-btn-inactive {
+  @apply bg-white/5 border-white/20 text-slate-300 hover:bg-white/10 hover:border-white/30 hover:scale-102;
+}
+
+.submit-btn {
+  @apply w-full px-8 py-4 rounded-2xl text-lg font-bold transition-all duration-300 transform;
+}
+
+.submit-btn-active {
+  @apply bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 text-white shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95;
+}
+
+.submit-btn-disabled {
+  @apply bg-slate-600/50 text-slate-400 cursor-not-allowed;
+}
+
+/* 애니메이션 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-group {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.1s; }
+.form-group:nth-child(2) { animation-delay: 0.2s; }
+.form-group:nth-child(3) { animation-delay: 0.3s; }
+.form-group:nth-child(4) { animation-delay: 0.4s; }
+.form-group:nth-child(5) { animation-delay: 0.5s; }
+.form-group:nth-child(6) { animation-delay: 0.6s; }
 </style> 
