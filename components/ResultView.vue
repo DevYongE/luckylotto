@@ -13,6 +13,46 @@
       </p>
     </div>
 
+    <!-- 주간 운세 -->
+    <div v-if="weeklyFortune && Object.keys(weeklyFortune).length > 0" class="result-card mb-8">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center">
+          <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg">
+            <span class="text-xl">📅</span>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-xl font-bold text-white">
+              이번 주 운세
+            </h3>
+            <p class="text-slate-400 text-sm">
+              월요일부터 일요일까지
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div
+          v-for="(dayInfo, day) in weeklyFortune"
+          :key="day"
+          class="weekly-card"
+        >
+          <div class="flex items-center mb-3">
+            <div class="day-icon">
+              {{ getDayEmoji(day) }}
+            </div>
+            <div class="ml-3">
+              <div class="text-white font-semibold">{{ day }}</div>
+              <div class="text-slate-400 text-xs">{{ dayInfo.date }}</div>
+            </div>
+          </div>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            {{ dayInfo.fortune }}
+          </p>
+        </div>
+      </div>
+    </div>
+
     <!-- 로또 번호 세트들 -->
     <div class="space-y-6">
       <div
@@ -122,6 +162,25 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['reset'])
+
+// 주간 운세 데이터
+const weeklyFortune = computed(() => {
+  return props.result?.weeklyFortune || null
+})
+
+// 요일별 이모지
+const getDayEmoji = (day) => {
+  const emojiMap = {
+    '월요일': '🌙',
+    '화요일': '🔥', 
+    '수요일': '💧',
+    '목요일': '🌳',
+    '금요일': '⚡',
+    '토요일': '🌍',
+    '일요일': '☀️'
+  }
+  return emojiMap[day] || '📅'
+}
 
 // 로또 번호 세트 생성
 const lottoSets = computed(() => {
@@ -395,6 +454,32 @@ const copyNumbers = () => {
   border-radius: 1rem;
   padding: 1.5rem;
   text-align: center;
+}
+
+.weekly-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  transform: scale(1);
+}
+
+.weekly-card:hover {
+  transform: scale(1.02);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.day-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
 }
 
 /* 애니메이션 */
