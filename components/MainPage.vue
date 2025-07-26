@@ -13,7 +13,7 @@
       
       <!-- 결과 -->
       <div v-else-if="currentStep === 'result'" key="result">
-        <ResultView :result="result" @reset="handleReset" />
+        <ResultView :result="result" :original-user-info="originalUserInfo" @reset="handleReset" @update-result="handleUpdateResult" />
       </div>
       
       <!-- 에러 -->
@@ -41,16 +41,18 @@ import ResultView from './ResultView.vue'
 const currentStep = ref('input') // 'input', 'loading', 'result', 'error'
 const result = ref(null)
 const errorMessage = ref('')
+const originalUserInfo = ref(null) // 원본 사용자 정보 저장
 
 const handleSubmit = async (formData) => {
   currentStep.value = 'loading'
   errorMessage.value = ''
+  originalUserInfo.value = formData // 원본 정보 저장
   
   try {
     const response = await $fetch('/api/fortune', {
       method: 'POST',
       body: formData,
-      timeout: 30000 // 30초 타임아웃
+      timeout: 30000
     })
     
     if (response?.result) {
@@ -81,6 +83,11 @@ const handleReset = () => {
   currentStep.value = 'input'
   result.value = null
   errorMessage.value = ''
+  originalUserInfo.value = null
+}
+
+const handleUpdateResult = (newResult) => {
+  result.value = newResult
 }
 
 // 컴포넌트가 마운트될 때 이전 상태 초기화

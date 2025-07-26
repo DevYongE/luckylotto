@@ -127,9 +127,10 @@
       <button
         @click="generateNew"
         class="action-btn primary-btn"
+        :disabled="isGenerating"
       >
         <span class="text-xl mr-2">🎲</span>
-        새로운 번호 생성
+        {{ isGenerating ? '생성 중...' : '새로운 번호 생성' }}
       </button>
       <button
         @click="copyNumbers"
@@ -165,10 +166,18 @@ const props = defineProps({
   result: {
     type: Object,
     required: true
+  },
+  originalUserInfo: {
+    type: Object,
+    default: null
   }
 })
 
-const emit = defineEmits(['reset'])
+const emit = defineEmits(['reset', 'update-result'])
+
+// 상태 관리
+const isGenerating = ref(false)
+const errorMessage = ref('')
 
 // 주간 운세 데이터
 const weeklyFortune = computed(() => {
@@ -258,9 +267,51 @@ const getNumberClass = (number) => {
   return 'ball-green'
 }
 
-const generateNew = () => {
-  // 새로운 번호 생성 로직
-  alert('새로운 번호를 생성합니다!')
+// 새로운 번호 생성 함수
+const generateNew = async () => {
+  if (isGenerating.value) return
+  
+  isGenerating.value = true
+  errorMessage.value = ''
+  
+  try {
+    // 원본 사용자 정보 사용
+    const userInfo = props.originalUserInfo || {
+      name: props.result?.message?.split('님')[0] || '사용자',
+      birthDate: '1990-01-01', // 기본값
+      gender: '남성', // 기본값
+      birthHour: '',
+      birthMinute: '',
+      luckyNumbers: []
+    }
+    
+    console.log('🔄 새로운 번호 생성 시작...', userInfo)
+    
+    const response = await $fetch('/api/generate-new', {
+      method: 'POST',
+      body: userInfo,
+      timeout: 30000
+    })
+    
+    if (response?.result) {
+      console.log('✅ 새로운 번호 생성 성공')
+      emit('update-result', response.result)
+    } else {
+      throw new Error('서버에서 올바른 응답을 받지 못했습니다.')
+    }
+  } catch (error) {
+    console.error('새로운 번호 생성 오류:', error)
+    
+    if (error.name === 'AbortError' || error.message.includes('timeout')) {
+      errorMessage.value = '요청 시간이 초과되었습니다. 잠시 후 다시 시도해주세요.'
+    } else if (error.statusCode === 500) {
+      errorMessage.value = 'AI 서비스에 일시적인 문제가 있습니다. 잠시 후 다시 시도해주세요.'
+    } else {
+      errorMessage.value = '새로운 번호 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
+    }
+  } finally {
+    isGenerating.value = false
+  }
 }
 
 const copyNumbers = () => {
