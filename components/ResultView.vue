@@ -8,9 +8,16 @@
       <h2 class="text-4xl font-bold text-white mb-4">
         당신만의 특별한 번호
       </h2>
-      <p class="text-xl text-slate-300">
+      <p class="text-xl text-slate-300 mb-4">
         AI가 분석한 맞춤형 로또 번호입니다
       </p>
+      
+      <!-- 데이터 타입 표시 배지 -->
+      <div class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold" 
+           :class="result.isSampleData ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' : 'bg-green-500/20 text-green-300 border border-green-500/30'">
+        <span class="mr-2">{{ result.isSampleData ? '🔧' : '🤖' }}</span>
+        {{ result.isSampleData ? '샘플 데이터' : 'AI 생성 데이터' }}
+      </div>
     </div>
 
     <!-- 주간 운세 -->

@@ -63,7 +63,7 @@ export default defineEventHandler(async (event) => {
   
   // API 키가 없을 때 샘플 데이터 반환
   if (!config.openaiApiKey) {
-    console.log('OpenAI API 키가 없어서 샘플 데이터를 반환합니다.')
+    console.log('⚠️ OpenAI API 키가 없어서 샘플 데이터를 반환합니다.')
     
     // 랜덤 로또 번호 생성
     const generateLottoNumbers = () => {
@@ -76,7 +76,7 @@ export default defineEventHandler(async (event) => {
     
     return {
       result: {
-        message: `${name}님의 맞춤 로또 번호가 생성되었습니다!`,
+        message: `${name}님의 맞춤 로또 번호가 생성되었습니다! (샘플 데이터)`,
         lottoNumbers: [
           generateLottoNumbers(),
           generateLottoNumbers(),
@@ -89,7 +89,8 @@ export default defineEventHandler(async (event) => {
           today: "오늘은 특별한 행운이 함께할 것입니다.",
           week: "이번 주는 새로운 기회가 많이 찾아올 예정입니다.",
           month: "이번 달은 재정적으로 좋은 소식이 있을 것 같습니다."
-        }
+        },
+        isSampleData: true // 샘플 데이터 표시
       }
     }
   }
@@ -183,6 +184,7 @@ export default defineEventHandler(async (event) => {
 `
 
   try {
+    console.log('🤖 AI API 호출 시작...')
     const response = await openai.chat.completions.create({
       model: 'gpt-4o',
       messages: [
@@ -200,6 +202,8 @@ export default defineEventHandler(async (event) => {
     })
     
     const content = response.choices[0].message.content
+    console.log('🤖 AI 응답 받음:', content ? '응답 있음' : '응답 없음')
+    
     let result
     
     if (!content) {
@@ -208,10 +212,13 @@ export default defineEventHandler(async (event) => {
     
     try {
       result = JSON.parse(content)
+      console.log('✅ AI JSON 파싱 성공')
+      result.isSampleData = false // 실제 AI 데이터 표시
     } catch (parseError) {
+      console.error('❌ AI JSON 파싱 실패:', parseError)
       // JSON 파싱 실패 시 기본 응답
       result = {
-        message: `${name}님의 맞춤 로또 번호가 생성되었습니다!`,
+        message: `${name}님의 맞춤 로또 번호가 생성되었습니다! (AI 응답 처리 오류)`,
         lottoNumbers: [
           [3, 15, 22, 27, 34, 41],
           [6, 11, 18, 29, 35, 42],
@@ -224,14 +231,15 @@ export default defineEventHandler(async (event) => {
           today: "AI 응답 처리 중 오류가 있었지만, 오늘은 좋은 일이 있을 것입니다.",
           week: "이번 주는 새로운 기회가 찾아올 것입니다.",
           month: "이번 달은 행운이 함께할 것입니다."
-        }
+        },
+        isSampleData: true // 샘플 데이터 표시
       }
     }
     
     return { result }
     
   } catch (error) {
-    console.error('OpenAI API 오류:', error)
+    console.error('❌ OpenAI API 오류:', error)
     
     // 오류 시에도 샘플 데이터 반환
     const generateLottoNumbers = () => {
@@ -239,12 +247,12 @@ export default defineEventHandler(async (event) => {
       while (numbers.size < 6) {
         numbers.add(Math.floor(Math.random() * 45) + 1)
       }
-              return Array.from(numbers).sort((a, b) => (a as number) - (b as number))
+      return Array.from(numbers).sort((a, b) => (a as number) - (b as number))
     }
     
     return {
       result: {
-        message: `${name}님의 랜덤 로또 번호입니다!`,
+        message: `${name}님의 랜덤 로또 번호입니다! (AI 서비스 오류)`,
         lottoNumbers: [
           generateLottoNumbers(),
           generateLottoNumbers(),
@@ -257,7 +265,8 @@ export default defineEventHandler(async (event) => {
           today: "AI 서비스 일시 중단 중이지만, 오늘은 좋은 일이 있을 것입니다.",
           week: "이번 주는 긍정적인 변화가 있을 것입니다.",
           month: "이번 달은 새로운 시작의 달이 될 것입니다."
-        }
+        },
+        isSampleData: true // 샘플 데이터 표시
       }
     }
   }
