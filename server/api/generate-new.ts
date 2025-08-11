@@ -60,6 +60,28 @@ export default defineEventHandler(async (event) => {
     })
   }
   
+  // 현재 날짜 기반으로 이번 주 날짜 계산 (2024-12-23 추가)
+  const today = new Date()
+  const dayOfWeek = today.getDay()
+  const monday = new Date(today)
+  
+  // 월요일로 이동 (일요일이 0, 월요일이 1)
+  const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek
+  monday.setDate(today.getDate() + daysToMonday)
+  
+  // 이번 주 날짜들 계산
+  const weekDates = []
+  const dayNames = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
+  
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(monday)
+    date.setDate(monday.getDate() + i)
+    weekDates.push({
+      day: dayNames[i],
+      date: `${date.getMonth() + 1}월 ${date.getDate()}일`
+    })
+  }
+  
   // API 키 상태 확인 및 로깅
   console.log('🔄 새로운 번호 생성 - API 키 상태 확인:')
   console.log('- config.openaiApiKey 존재:', !!config.openaiApiKey)
@@ -151,31 +173,31 @@ export default defineEventHandler(async (event) => {
   ],
   "weeklyFortune": {
     "월요일": {
-      "date": "월 일일",
+      "date": "${weekDates[0].date}",
       "fortune": "새로운 월요일 운세 메시지"
     },
     "화요일": {
-      "date": "월 일일", 
+      "date": "${weekDates[1].date}", 
       "fortune": "새로운 화요일 운세 메시지"
     },
     "수요일": {
-      "date": "월 일일",
+      "date": "${weekDates[2].date}",
       "fortune": "새로운 수요일 운세 메시지" 
     },
     "목요일": {
-      "date": "월 일일",
+      "date": "${weekDates[3].date}",
       "fortune": "새로운 목요일 운세 메시지"
     },
     "금요일": {
-      "date": "월 일일",
+      "date": "${weekDates[4].date}",
       "fortune": "새로운 금요일 운세 메시지"
     },
     "토요일": {
-      "date": "월 일일", 
+      "date": "${weekDates[5].date}", 
       "fortune": "새로운 토요일 운세 메시지"
     },
     "일요일": {
-      "date": "월 일일",
+      "date": "${weekDates[6].date}",
       "fortune": "새로운 일요일 운세 메시지"
     }
   },
@@ -222,7 +244,7 @@ export default defineEventHandler(async (event) => {
       
       // 로또 번호 검증 및 수정
       if (result.lottoNumbers && Array.isArray(result.lottoNumbers)) {
-        const validateAndFixLottoNumbers = (numbers) => {
+        const validateAndFixLottoNumbers = (numbers: any) => {
           if (!Array.isArray(numbers) || numbers.length !== 6) {
             return generateRandomLottoNumbers()
           }
@@ -245,7 +267,7 @@ export default defineEventHandler(async (event) => {
           return numbers
         }
         
-        result.lottoNumbers = result.lottoNumbers.map((numbers, index) => {
+                        result.lottoNumbers = result.lottoNumbers.map((numbers: any, index: any) => {
           const validatedNumbers = validateAndFixLottoNumbers(numbers)
           if (validatedNumbers !== numbers) {
             console.warn(`🚨 ${index + 1}번 세트가 유효하지 않아 새로운 번호로 교체합니다.`)
