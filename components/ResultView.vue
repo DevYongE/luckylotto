@@ -282,6 +282,39 @@ const getDayEmoji = (day) => {
   return emojiMap[day] || '📅'
 }
 
+// 로또 번호 검증 함수
+const validateLottoNumbers = (numbers) => {
+  if (!Array.isArray(numbers) || numbers.length !== 6) {
+    return false
+  }
+  
+  // 1-45 범위 검증
+  for (const num of numbers) {
+    if (typeof num !== 'number' || num < 1 || num > 45) {
+      console.warn(`🚨 잘못된 로또 번호 발견: ${num} (1-45 범위를 벗어남)`)
+      return false
+    }
+  }
+  
+  // 중복 검증
+  const uniqueNumbers = new Set(numbers)
+  if (uniqueNumbers.size !== 6) {
+    console.warn('🚨 중복된 로또 번호 발견')
+    return false
+  }
+  
+  return true
+}
+
+// 유효한 로또 번호로 교체하는 함수
+const generateValidLottoNumbers = () => {
+  const numbers = new Set()
+  while (numbers.size < 6) {
+    numbers.add(Math.floor(Math.random() * 45) + 1)
+  }
+  return Array.from(numbers).sort((a, b) => a - b)
+}
+
 // 로또 번호 세트 생성
 const lottoSets = computed(() => {
   let lottoNumbers = []
@@ -305,7 +338,16 @@ const lottoSets = computed(() => {
     ]
   }
   
-  return lottoNumbers.map((numbers, index) => {
+  // 각 세트 검증 및 수정
+  const validatedNumbers = lottoNumbers.map((numbers, index) => {
+    if (!validateLottoNumbers(numbers)) {
+      console.warn(`🚨 ${index + 1}번 세트가 유효하지 않아 새로운 번호로 교체합니다.`)
+      return generateValidLottoNumbers()
+    }
+    return numbers
+  })
+  
+  return validatedNumbers.map((numbers, index) => {
     const sum = numbers.reduce((a, b) => a + b, 0)
     const evenCount = numbers.filter(n => n % 2 === 0).length
     const highCount = numbers.filter(n => n > 25).length

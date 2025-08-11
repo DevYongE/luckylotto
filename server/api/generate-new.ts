@@ -122,6 +122,21 @@ export default defineEventHandler(async (event) => {
 이 정보를 바탕으로 **새로운** 맞춤형 로또 번호 5세트를 생성해주세요.
 이전과 다른 새로운 조합으로 만들어주세요.
 
+🚨 로또 번호 규칙 (반드시 지켜주세요):
+- 각 세트는 정확히 6개의 숫자로 구성
+- 모든 숫자는 1부터 45까지의 범위만 사용 (46 이상 사용 금지!)
+- 각 세트 내에서 중복된 숫자 없음
+- 5개 세트 모두 서로 다른 조합으로 생성
+
+예시 올바른 로또 번호:
+- 1번: [3, 15, 22, 27, 34, 41] ✅ (모든 숫자가 1-45 범위)
+- 2번: [6, 11, 18, 29, 35, 42] ✅ (모든 숫자가 1-45 범위)
+- 3번: [8, 17, 23, 30, 36, 44] ✅ (모든 숫자가 1-45 범위)
+
+잘못된 예시:
+- [3, 15, 22, 27, 34, 50] ❌ (50은 45를 초과)
+- [3, 15, 22, 27, 34, 0] ❌ (0은 1 미만)
+
 **중요: 반드시 JSON 형식으로만 응답해주세요. 마크다운 코드 블록이나 다른 형식을 사용하지 마세요.**
 
 응답 형식:
@@ -204,6 +219,41 @@ export default defineEventHandler(async (event) => {
     try {
       result = JSON.parse(content)
       console.log('✅ 새로운 번호 생성 - AI JSON 파싱 성공')
+      
+      // 로또 번호 검증 및 수정
+      if (result.lottoNumbers && Array.isArray(result.lottoNumbers)) {
+        const validateAndFixLottoNumbers = (numbers) => {
+          if (!Array.isArray(numbers) || numbers.length !== 6) {
+            return generateRandomLottoNumbers()
+          }
+          
+          // 1-45 범위 검증
+          for (const num of numbers) {
+            if (typeof num !== 'number' || num < 1 || num > 45) {
+              console.warn(`🚨 잘못된 로또 번호 발견: ${num} (1-45 범위를 벗어남)`)
+              return generateRandomLottoNumbers()
+            }
+          }
+          
+          // 중복 검증
+          const uniqueNumbers = new Set(numbers)
+          if (uniqueNumbers.size !== 6) {
+            console.warn('🚨 중복된 로또 번호 발견')
+            return generateRandomLottoNumbers()
+          }
+          
+          return numbers
+        }
+        
+        result.lottoNumbers = result.lottoNumbers.map((numbers, index) => {
+          const validatedNumbers = validateAndFixLottoNumbers(numbers)
+          if (validatedNumbers !== numbers) {
+            console.warn(`🚨 ${index + 1}번 세트가 유효하지 않아 새로운 번호로 교체합니다.`)
+          }
+          return validatedNumbers
+        })
+      }
+      
       result.isSampleData = false
     } catch (parseError) {
       console.error('❌ 새로운 번호 생성 - AI JSON 파싱 실패:', parseError)
