@@ -37,96 +37,12 @@
           </div>
         </div>
       </div>
-<<<<<<< HEAD
-      
-      <!-- 로또 번호 -->
-      <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-white/20">
-        <div class="text-center mb-8">
-          <div class="inline-block p-3 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full mb-4">
-            <span class="text-2xl">🎰</span>
-          </div>
-          <h3 class="text-2xl font-bold text-white mb-2" style="color: white !important;">🎰 사주 기반 로또 번호 추천</h3>
-          <p class="text-purple-200" style="color: #c4b5fd !important;">당신의 사주와 조화를 이루는 행운의 번호들입니다</p>
-        </div>
-        
-        <div class="space-y-6">
-          <div
-            v-for="(numbers, index) in lottoNumbers"
-            :key="index"
-            class="bg-gradient-to-r from-white/15 to-white/8 backdrop-blur-sm rounded-3xl p-8 border-2 border-white/30 hover:border-yellow-400/70 transition-all duration-300 shadow-xl hover:shadow-2xl"
-          >
-            <div class="flex items-center justify-between mb-8">
-              <div class="flex items-center">
-                <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 via-orange-400 to-orange-600 rounded-full flex items-center justify-center mr-4 shadow-lg border-2 border-white/20">
-                  <span class="text-white font-bold text-lg" style="color: white !important;">{{ index + 1 }}</span>
-                </div>
-                <div>
-                  <span class="text-xl font-bold text-white" style="color: white !important;">{{ index + 1 }}번 조합</span>
-                  <p class="text-sm text-purple-200" style="color: #ddd6fe !important;">행운의 번호</p>
-                </div>
-              </div>
-              <div class="bg-gradient-to-r from-yellow-500/30 to-orange-500/30 px-4 py-2 rounded-full border border-yellow-400/50">
-                <span class="text-yellow-100 text-sm font-bold" style="color: #fef3c7 !important;">🍀 Lucky Set</span>
-              </div>
-            </div>
-            
-            <!-- 로또 번호들 -->
-            <div class="flex flex-wrap items-center justify-center gap-6 bg-gradient-to-br from-black/30 to-black/20 rounded-3xl p-8 border border-white/10">
-              <!-- 번호 표시 -->
-              <div class="w-full text-center mb-4">
-                <p class="text-sm text-purple-300" style="color: #d1d5db !important;">개별 로또 공</p>
-              </div>
-              
-              <div
-                v-for="(number, numIndex) in numbers"
-                :key="`${index}-${numIndex}-${number}`"
-                class="relative group"
-              >
-                <!-- 로또 공 외부 링 -->
-                <div class="w-20 h-20 rounded-full flex items-center justify-center shadow-2xl border-2 border-white/20 group-hover:shadow-3xl transition-all duration-300">
-                    <!-- 로또 공 메인 -->
-                    <div
-                      :class="['w-16 h-16 rounded-full flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-all duration-300 relative overflow-hidden', getLottoNumberClass(number)]"
-                    >
-                      <!-- 하이라이트 효과 -->
-                      <div class="absolute top-1.5 left-3 w-5 h-5 bg-white/50 rounded-full blur-sm"></div>
-                      <div class="absolute top-0.5 left-2 w-3 h-3 bg-white/30 rounded-full"></div>
-
-                      <!-- 번호 텍스트 -->
-                      <span class="relative z-20 font-black text-xl drop-shadow-lg" style="text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-                        {{ number }}
-                      </span>
-                    </div>
-
-                    <!-- 번호 아래 작은 라벨 -->
-                  </div>
-                  <div class="text-center mt-2">
-                    <span class="text-xs text-purple-300" style="color: #c4b5fd !important;">{{ number }}</span>
-                  </div>
-                                <!-- 번호 아래 작은 라벨 -->
-                <div class="text-center mt-2">
-                  <span class="text-xs text-purple-300" style="color: #c4b5fd !important;">{{ number }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 액션 버튼들 -->
-      <div class="flex flex-col sm:flex-row gap-4">
-        <button
-          @click="copyResult"
-          class="flex-1 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-400/50 shadow-2xl flex items-center justify-center"
-          style="color: white !important;"
-=======
-
+      <!-- 주간 운세 카드들 -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         <div
           v-for="(dayInfo, day) in weeklyFortune"
           :key="day"
           class="weekly-card"
->>>>>>> 0b7977e199c0821b70f588387489306e4702921e
         >
           <div class="flex items-center mb-3">
             <div class="day-icon">
